@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: florenzo-space
+    runtime: image
+    image:
+      url: .
+    envVars:
+      - key: SANITY_PROJECT_ID
+        sync: false
+      - key: SANITY_DATASET
+        value: production
+      - key: REDIS_URL
+        sync: false
+    healthCheckPath: /
