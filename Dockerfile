@@ -4,7 +4,7 @@
 # Stage 2: Copy just the binary into a minimal image
 
 # Build stage
-FROM rust:1.85-bookworm AS builder
+FROM rust:bookworm AS builder
 
 WORKDIR /app
 
