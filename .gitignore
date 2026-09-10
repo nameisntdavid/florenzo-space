@@ -1,0 +1,32 @@
+# Rust build artifacts
+/target
+
+# Environment files (contain secrets)
+.env
+.env.*
+!.env.example
+
+# IDE / Editor
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Sanity Studio
+sanity-studio/node_modules/
+sanity-studio/dist/
+sanity-studio/.sanity/
+
+# Vercel
+.vercel/
+
+# Misc
+*.log

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} | My Blog{% endblock %}
+
+{% block head %}
+<meta name="description" content="{{ post.excerpt.as_deref().unwrap_or("") }}" />
+{% endblock %}
+
+{% block content %}
+<article class="post">
+    <header class="post-header">
+        {% if let Some(img_url) = post.main_image_url(&sanity_project_id, &sanity_dataset) %}
+        <div class="post-hero">
+            <img src="{{ img_url }}" alt="{{ post.title }}" />
+        </div>
+        {% endif %}
+
+        <h1>{{ post.title }}</h1>
+
+        <div class="post-meta">
+            {% if let Some(date) = &post.published_at %}
+            <time datetime="{{ date.format("%Y-%m-%d") }}">{{ date.format("%B %d, %Y") }}</time>
+            {% endif %}
+            {% if let Some(tags) = &post.tags %}
+            <div class="post-tags">
+                {% for tag in tags %}
+                <a href="/tag/{{ tag.slug }}" class="tag">{{ tag.title }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="post-content">
+        {{ post_body_html | safe }}
+    </div>
+
+    <footer class="post-footer">
+        <div class="reactions" id="reactions-{{ post.slug }}">
+            {% include "components/reactions.html" %}
+        </div>
+    </footer>
+</article>
+{% endblock %}

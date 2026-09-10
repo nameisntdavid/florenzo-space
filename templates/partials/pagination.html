@@ -1,0 +1,32 @@
+<!-- Pagination controls. Uses HTMX to swap just the post list, not the whole page. -->
+{% if total_pages > 1 %}
+<div class="pagination">
+    {% if page > 1 %}
+    <a
+        href="?page={{ page - 1 }}"
+        hx-get="?page={{ page - 1 }}"
+        hx-target=".post-list"
+        hx-swap="innerHTML"
+        class="pagination-btn"
+    >
+        &larr; Newer
+    </a>
+    {% endif %}
+
+    <span class="pagination-info">
+        Page {{ page }} of {{ total_pages }}
+    </span>
+
+    {% if page < total_pages %}
+    <a
+        href="?page={{ page + 1 }}"
+        hx-get="?page={{ page + 1 }}"
+        hx-target=".post-list"
+        hx-swap="innerHTML"
+        class="pagination-btn"
+    >
+        Older &rarr;
+    </a>
+    {% endif %}
+</div>
+{% endif %}

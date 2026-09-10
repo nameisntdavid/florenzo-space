@@ -1,0 +1,13 @@
+target/
+node_modules/
+.env
+.env.*
+sanity-studio/
+.git/
+.gitignore
+.vs/
+.vscode/
+.idea/
+.vercel/
+README.md
+*.log

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Search | My Blog{% endblock %}
+
+{% block content %}
+<div class="search-page">
+    <h1>Search</h1>
+
+    <form action="/search" method="get" class="search-form-large">
+        <input
+            type="search"
+            name="q"
+            value="{{ query }}"
+            placeholder="Search posts..."
+            autofocus
+        />
+        <button type="submit">Search</button>
+    </form>
+
+    {% if !query.is_empty() %}
+    <div class="search-results">
+        <p class="search-count">Results for "{{ query }}"</p>
+
+        {% if results.is_empty() %}
+        <p class="empty-state">No posts found. Try different keywords.</p>
+        {% else %}
+        <div class="post-list">
+            {% for post in results %}
+            <article class="post-card">
+                <div class="post-card-body">
+                    <h2><a href="/post/{{ post.slug }}">{{ post.title }}</a></h2>
+                    {% if let Some(excerpt) = &post.excerpt %}
+                    <p class="post-excerpt">{{ excerpt }}</p>
+                    {% endif %}
+                    <div class="post-meta">
+                        {% if let Some(date) = &post.published_at %}
+                        <time datetime="{{ date.format("%Y-%m-%d") }}">{{ date.format("%b %d, %Y") }}</time>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

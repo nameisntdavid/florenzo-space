@@ -1,0 +1,38 @@
+[package]
+name = "personal-blog"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Web framework (like Express.js for Rust)
+axum = "0.7"
+
+# HTMX integration (detects htmx requests, returns partial HTML)
+axum-htmx = "0.6"
+
+# Compile-time HTML templates (like Jinja2, but type-safe)
+askama = "0.16"
+
+# Async runtime (Rust doesn't have a built-in async runtime — Tokio is the standard)
+tokio = { version = "1", features = ["full"] }
+
+# HTTP server utilities (static files, compression, etc.)
+tower = "0.5"
+tower-http = { version = "0.6", features = ["fs", "compression-gzip"] }
+
+# Serialization/deserialization (like JSON.parse / JSON.stringify)
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# HTTP client (like fetch() — we use this to call Sanity's API)
+reqwest = { version = "0.12", features = ["json"] }
+
+# Redis client (async, with TLS support for rediss:// URLs)
+fred = { version = "10", features = ["enable-native-tls"] }
+
+# Date/time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# Environment variables (.env file support)
+dotenvy = "0.15"
+urlencoding = "2.1.3"

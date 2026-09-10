@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Home | My Blog{% endblock %}
+
+{% block content %}
+<div class="post-list">
+    {% if posts.is_empty() %}
+    <p class="empty-state">No posts yet. Check back soon!</p>
+    {% else %}
+    {% for post in posts %}
+    <article class="post-card">
+        {% if let Some(img_url) = post.main_image_url(&sanity_project_id, &sanity_dataset) %}
+        <div class="post-card-image">
+            <img src="{{ img_url }}" alt="" loading="lazy" />
+        </div>
+        {% endif %}
+        <div class="post-card-body">
+            <h2><a href="/post/{{ post.slug }}">{{ post.title }}</a></h2>
+            {% if let Some(excerpt) = &post.excerpt %}
+            <p class="post-excerpt">{{ excerpt }}</p>
+            {% endif %}
+            <div class="post-meta">
+                {% if let Some(date) = &post.published_at %}
+                <time datetime="{{ date.format("%Y-%m-%d") }}">{{ date.format("%b %d, %Y") }}</time>
+                {% endif %}
+                {% if let Some(tags) = &post.tags %}
+                <div class="post-tags">
+                    {% for tag in tags %}
+                    <a href="/tag/{{ tag.slug }}" class="tag">{{ tag.title }}</a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+
+    {% include "partials/pagination.html" %}
+    {% endif %}
+</div>
+{% endblock %}

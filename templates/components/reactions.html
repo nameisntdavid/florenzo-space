@@ -1,0 +1,19 @@
+<!-- Emoji reaction buttons. Each button sends an HTMX POST request. -->
+<!-- The response updates just this button's count, not the whole page. -->
+<div class="reaction-buttons">
+    <button class="reaction-btn" hx-post="/api/react" hx-vals='{"slug":"{{ post_slug }}","emoji":"fire"}' hx-target="this" hx-swap="outerHTML">
+        <span class="reaction-emoji">🔥</span> <span class="reaction-count">{{ reaction_counts.get("fire").unwrap_or(&0) }}</span>
+    </button>
+    <button class="reaction-btn" hx-post="/api/react" hx-vals='{"slug":"{{ post_slug }}","emoji":"heart"}' hx-target="this" hx-swap="outerHTML">
+        <span class="reaction-emoji">❤️</span> <span class="reaction-count">{{ reaction_counts.get("heart").unwrap_or(&0) }}</span>
+    </button>
+    <button class="reaction-btn" hx-post="/api/react" hx-vals='{"slug":"{{ post_slug }}","emoji":"rocket"}' hx-target="this" hx-swap="outerHTML">
+        <span class="reaction-emoji">🚀</span> <span class="reaction-count">{{ reaction_counts.get("rocket").unwrap_or(&0) }}</span>
+    </button>
+    <button class="reaction-btn" hx-post="/api/react" hx-vals='{"slug":"{{ post_slug }}","emoji":"bulb"}' hx-target="this" hx-swap="outerHTML">
+        <span class="reaction-emoji">💡</span> <span class="reaction-count">{{ reaction_counts.get("bulb").unwrap_or(&0) }}</span>
+    </button>
+    <button class="reaction-btn" hx-post="/api/react" hx-vals='{"slug":"{{ post_slug }}","emoji":"eyes"}' hx-target="this" hx-swap="outerHTML">
+        <span class="reaction-emoji">👀</span> <span class="reaction-count">{{ reaction_counts.get("eyes").unwrap_or(&0) }}</span>
+    </button>
+</div>

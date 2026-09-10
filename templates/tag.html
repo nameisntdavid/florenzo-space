@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Tag: {{ tag_name }} | My Blog{% endblock %}
+
+{% block content %}
+<div class="tag-header">
+    <h1>Posts tagged "{{ tag_name }}"</h1>
+    <a href="/" class="back-link">&larr; All posts</a>
+</div>
+
+<div class="post-list">
+    {% if posts.is_empty() %}
+    <p class="empty-state">No posts with this tag yet.</p>
+    {% else %}
+    {% for post in posts %}
+    <article class="post-card">
+        <div class="post-card-body">
+            <h2><a href="/post/{{ post.slug }}">{{ post.title }}</a></h2>
+            {% if let Some(excerpt) = &post.excerpt %}
+            <p class="post-excerpt">{{ excerpt }}</p>
+            {% endif %}
+            <div class="post-meta">
+                {% if let Some(date) = &post.published_at %}
+                <time datetime="{{ date.format("%Y-%m-%d") }}">{{ date.format("%b %d, %Y") }}</time>
+                {% endif %}
+            </div>
+        </div>
+    </article>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
