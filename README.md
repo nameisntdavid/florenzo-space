@@ -3,8 +3,7 @@
 A server-rendered blog built with Rust, Axum, Sanity CMS, Redis, and HTMX. Deployed on Vercel via Docker.
 
 ## TODO
-- redesign website
-- have it use my github pfp as the main logo or something
+- need bio
 - remove test artifacts
 - add api rate limiting (please dont murder my website)
 

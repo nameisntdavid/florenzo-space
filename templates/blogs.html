@@ -1,22 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}Tag: {{ tag_name }} | i farted{% endblock %}
+{% block title %}Blogs | i farted{% endblock %}
 {% block tab_blogs %}nav-tab--active{% endblock %}
 
 {% block content %}
-<div class="tag-header">
-    <h1>Posts tagged "{{ tag_name }}"</h1>
-    <a href="/blogs" class="back-link">&larr; All posts</a>
+<div class="blogs-header">
+    <h1>Blogs</h1>
+
+    <form action="/blogs" method="get" class="search-bar">
+        <input
+            type="search"
+            name="q"
+            value="{{ query }}"
+            placeholder="Search posts..."
+            autofocus
+        />
+    </form>
+
+    <div class="tag-filters">
+        <a href="/blogs" class="tag-chip {% if active_tag.is_none() %}tag-chip--active{% endif %}">All</a>
+        {% for tag in all_tags %}
+        <a href="/blogs?tag={{ tag.slug }}" class="tag-chip {% if active_tag.as_deref() == Some(tag.slug.as_str()) %}tag-chip--active{% endif %}">{{ tag.title }}</a>
+        {% endfor %}
+    </div>
 </div>
 
-<div class="view-toggle">
-    <a href="/tag/{{ tag_name }}?view=list" class="view-toggle-btn{% if view_mode == "list" %} active{% endif %}">List</a>
-    <a href="/tag/{{ tag_name }}?view=grid" class="view-toggle-btn{% if view_mode == "grid" %} active{% endif %}">Grid</a>
-</div>
-
-<div class="post-list{% if view_mode == "grid" %} post-list--grid{% endif %}">
+<div class="post-list">
     {% if posts.is_empty() %}
-    <p class="empty-state">No posts with this tag yet.</p>
+    <p class="empty-state">No posts found.</p>
     {% else %}
     {% for post in posts %}
     <a href="/post/{{ post.slug }}" class="post-row">

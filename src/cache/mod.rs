@@ -34,6 +34,10 @@ pub mod keys {
         format!("blog:post_count:tag:{}", tag)
     }
 
+    pub fn tags_all() -> String {
+        "blog:tags:all".to_string()
+    }
+
     pub fn reaction(post_slug: &str, emoji: &str) -> String {
         format!("blog:react:{}:{}", post_slug, emoji)
     }

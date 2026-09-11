@@ -87,6 +87,8 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(routes::home::handler))
+        .route("/blogs", get(routes::blogs::handler))
+        .route("/projects", get(routes::projects::handler))
         .route("/post/:slug", get(routes::post::handler))
         .route("/tag/:slug", get(routes::tag::handler))
         .route("/search", get(routes::search::handler))

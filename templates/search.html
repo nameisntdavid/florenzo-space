@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}Search | My Blog{% endblock %}
+{% block title %}Search | i farted{% endblock %}
+{% block tab_blogs %}nav-tab--active{% endblock %}
 
 {% block content %}
 <div class="search-page">
@@ -17,28 +18,33 @@
         <button type="submit">Search</button>
     </form>
 
-    {% if !query.is_empty() %}
-    <div class="search-results">
-        <p class="search-count">Results for "{{ query }}"</p>
+        {% if !query.is_empty() %}
+        <div class="view-toggle">
+            <a href="/search?q={{ query }}&view=list" class="view-toggle-btn{% if view_mode == "list" %} active{% endif %}">List</a>
+            <a href="/search?q={{ query }}&view=grid" class="view-toggle-btn{% if view_mode == "grid" %} active{% endif %}">Grid</a>
+        </div>
 
-        {% if results.is_empty() %}
-        <p class="empty-state">No posts found. Try different keywords.</p>
-        {% else %}
-        <div class="post-list">
+        <div class="search-results">
+            <p class="search-count">Results for "{{ query }}"</p>
+
+            {% if results.is_empty() %}
+            <p class="empty-state">No posts found. Try different keywords.</p>
+            {% else %}
+            <div class="post-list{% if view_mode == "grid" %} post-list--grid{% endif %}">
             {% for post in results %}
-            <article class="post-card">
-                <div class="post-card-body">
-                    <h2><a href="/post/{{ post.slug }}">{{ post.title }}</a></h2>
-                    {% if let Some(excerpt) = &post.excerpt %}
-                    <p class="post-excerpt">{{ excerpt }}</p>
-                    {% endif %}
-                    <div class="post-meta">
-                        {% if let Some(date) = &post.published_at %}
-                        <time datetime="{{ date.format("%Y-%m-%d") }}">{{ date.format("%b %d, %Y") }}</time>
-                        {% endif %}
-                    </div>
+            <a href="/post/{{ post.slug }}" class="post-row">
+                {% if let Some(img_url) = post.main_image_url(&sanity_project_id, &sanity_dataset) %}
+                <img src="{{ img_url }}" alt="" class="post-row-image" loading="lazy" />
+                {% else %}
+                <div class="post-row-image"></div>
+                {% endif %}
+                <div class="post-row-body">
+                    <span class="post-row-title">{{ post.title }}</span>
                 </div>
-            </article>
+                {% if let Some(date) = &post.published_at %}
+                <span class="post-row-date">{{ date.format("%b %d, %Y") }}</span>
+                {% endif %}
+            </a>
             {% endfor %}
         </div>
         {% endif %}

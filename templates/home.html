@@ -1,41 +1,72 @@
 {% extends "base.html" %}
 
-{% block title %}Home | My Blog{% endblock %}
+{% block title %}i farted{% endblock %}
+{% block tab_home %}nav-tab--active{% endblock %}
 
 {% block content %}
-<div class="post-list">
-    {% if posts.is_empty() %}
-    <p class="empty-state">No posts yet. Check back soon!</p>
-    {% else %}
-    {% for post in posts %}
-    <article class="post-card">
-        {% if let Some(img_url) = post.main_image_url(&sanity_project_id, &sanity_dataset) %}
-        <div class="post-card-image">
-            <img src="{{ img_url }}" alt="" loading="lazy" />
+    <section class="hero">
+        <div class="hero-media">
+            <img src="https://media1.tenor.com/m/TdsI25-BGEoAAAAC/umamusume-copano-rickey.gif" alt="" class="hero-media-item is-active" fetchpriority="high" />
+            <img src="https://media1.tenor.com/m/TRedry6UC4gAAAAd/uma-musume-symboli-rudolf.gif" alt="" class="hero-media-item" />
+            <img src="https://media1.tenor.com/m/z50Iey4JOAwAAAAd/cafe-manhattan-cafe.gif" alt="" class="hero-media-item" />
+            <img src="https://media1.tenor.com/m/HycP710OWZMAAAAC/miyabi-zzz.gif" alt="" class="hero-media-item" />
+            <img src="https://media1.tenor.com/m/1-4pcyv6Wa8AAAAC/zenless-zone-zero-miyabi.gif" alt="" class="hero-media-item" />
+            <img src="https://media1.tenor.com/m/f7iJMiLbcjcAAAAC/phrolova-syndrome.gif" alt="" class="hero-media-item" />
+            <img src="https://media1.tenor.com/m/qC-vWY1t8u8AAAAd/akaoni-wuwa.gif" alt="" class="hero-media-item" />
+            <img src="https://media1.tenor.com/m/m71NwIQkLBwAAAAd/nono-phrolova.gif" alt="" class="hero-media-item" />
+            <img src="https://media1.tenor.com/m/fEJcvjHSRF8AAAAC/phrolova-ww.gif" alt="" class="hero-media-item" />
+            <img src="https://static2.klipy.com/ii/e7539ef2aad336edaa067c28ee130b3c/a0/5c/u7QJkTpywskZ8GALOe.gif" alt="" class="hero-media-item" />
         </div>
-        {% endif %}
-        <div class="post-card-body">
-            <h2><a href="/post/{{ post.slug }}">{{ post.title }}</a></h2>
-            {% if let Some(excerpt) = &post.excerpt %}
-            <p class="post-excerpt">{{ excerpt }}</p>
-            {% endif %}
-            <div class="post-meta">
-                {% if let Some(date) = &post.published_at %}
-                <time datetime="{{ date.format("%Y-%m-%d") }}">{{ date.format("%b %d, %Y") }}</time>
-                {% endif %}
-                {% if let Some(tags) = &post.tags %}
-                <div class="post-tags">
-                    {% for tag in tags %}
-                    <a href="/tag/{{ tag.slug }}" class="tag">{{ tag.title }}</a>
-                    {% endfor %}
-                </div>
-                {% endif %}
-            </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-name">nandito si carter</h1>
+            <p class="hero-subtitle">https://klipy.com/gifs/carter-here-carterpcs</p>
         </div>
-    </article>
-    {% endfor %}
+    </section>
 
-    {% include "partials/pagination.html" %}
-    {% endif %}
-</div>
+    <script>
+    (function() {
+        var items = document.querySelectorAll('.hero-media-item');
+        if (items.length < 2) return;
+
+        var nodeArray = Array.prototype.slice.call(items);
+        nodeArray.sort(function() {
+            return Math.random() - 0.5;
+        });
+
+        var current = 0;
+        nodeArray[current].classList.add('is-active');
+
+        setInterval(function() {
+            nodeArray[current].classList.remove('is-active');
+            current = (current + 1) % nodeArray.length;
+            nodeArray[current].classList.add('is-active');
+        }, 10000);
+    })();
+    </script>
+
+{% if !posts.is_empty() %}
+<section class="section">
+    <h2 class="section-title">Recent posts</h2>
+    <div class="post-grid">
+        {% for post in posts %}
+        <a href="/post/{{ post.slug }}" class="post-grid-card">
+            {% if let Some(img_url) = post.main_image_url(&sanity_project_id, &sanity_dataset) %}
+            <img src="{{ img_url }}" alt="" class="post-grid-image" loading="lazy" />
+            {% else %}
+            <div class="post-grid-image"></div>
+            {% endif %}
+            <div class="post-grid-body">
+                <h3 class="post-grid-title">{{ post.title }}</h3>
+                <div class="post-grid-meta">
+                    {% if let Some(date) = &post.published_at %}
+                    <time datetime="{{ date.format("%Y-%m-%d") }}">{{ date.format("%b %d, %Y") }}</time>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
 {% endblock %}

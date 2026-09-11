@@ -128,6 +128,12 @@ impl SanityClient {
         self.query::<Vec<Post>>(&groq, None).await
     }
 
+    /// Fetch all tags ordered by title.
+    pub async fn get_tags(&self) -> Result<Vec<Tag>, String> {
+        let groq = r#"*[_type == "tag"] | order(title asc) {title, "slug": slug.current, description}"#;
+        self.query::<Vec<Tag>>(groq, None).await
+    }
+
     /// Count total published posts (used for pagination math).
     pub async fn count_posts(&self) -> Result<u64, String> {
         self.query(r#"count(*[_type == "post"])"#, None).await
